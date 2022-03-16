@@ -17,6 +17,7 @@
 	lsp-ui-doc-delay 0.5)
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+  (define-key lsp-ui-mode-map (kbd "K") 'lsp-ui-doc-show)
   )
 (use-package lsp-ivy
   :ensure t
@@ -27,7 +28,8 @@
 (use-package company
   :ensure t
   :config
-  (company-mode))
+  (global-company-mode)
+  )
 
 (use-package yasnippet
   :ensure t
@@ -129,20 +131,13 @@
   (call-interactively 'compile))
 
 ;; Shell
-(use-package vterm
-  :commands vterm
-  :init
-  (evil-set-initial-state 'vterm-mode 'emacs)
-  :config
-  (setq vterm-max-scrollback 10000)
-  :hook
-  (vterm-mode . (lambda() (linum-mode -1))))
+
 
 ;;; Edit
 (electric-pair-mode 1)
+(define-key evil-normal-state-map (kbd "K") 'lsp-ui-doc-show)
 (setq electric-pair-preserve-balance nil)
 
 ;; c,cpp
 (setq c-default-style "linux"
       c-basic-offset 4)
-

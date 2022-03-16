@@ -12,3 +12,4 @@
 (load-user-file "basic.el")
 (load-user-file "vendor/evil.el")
 (load-user-file "vendor/lsp.el")
+(load-user-file "vendor/vterm.el")

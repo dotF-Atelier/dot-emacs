@@ -24,13 +24,6 @@
 (menu-bar-mode -1)            ; Disable the menu bar
 (setq use-dialog-box nil)
 (scroll-bar-mode -1)
-;; (if (display-graphic-p)
-;;     (progn
-;;       (tool-bar-mode -1)            ; Disable the toolbar
-;;       (tooltip-mode -1)             ; Disable tooltips
-;;       (menu-bar-mode -1)            ; Disable the menu bar
-;;       (setq use-dialog-box nil)
-;;       (scroll-bar-mode -1)))
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; basic setting
