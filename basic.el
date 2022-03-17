@@ -3,6 +3,14 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;; Don't clutter up directories with files~
+(setq backup-directory-alist `(("." . ,(expand-file-name
+                                    (concat user-emacs-directory "backups")))))
+
+;; Don't clutter with #files either
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name (concat user-emacs-directory "backups")))))
+
 ;; Define and initialise package repositories
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/") t)
@@ -69,6 +77,3 @@
   (projectile-mode)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   )
-
-;; Org-mode
-(add-hook 'org-mode 'org-indent-mode)

@@ -1,5 +1,6 @@
 ;; lsp support
 (use-package lsp-mode
+  :after evil
   :ensure t
   :hook ((c-mode . lsp)
 	 (c++-mode . lsp)
@@ -9,7 +10,9 @@
   (setq lsp-keymap-prefix "C-c l")
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   (setq lsp-file-watch-threshold 15000))
+
 (use-package lsp-ui
+  :after lsp
   :ensure t
   :commands (lsp-ui-mode)
   :config
@@ -17,12 +20,14 @@
 	lsp-ui-doc-delay 0.5)
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  (define-key lsp-ui-mode-map (kbd "K") 'lsp-ui-doc-show)
+  (define-key evil-normal-state-map (kbd "K") 'lsp-ui-doc-show)
   )
 (use-package lsp-ivy
+  :after lsp
   :ensure t
   :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs
+  :after lsp
   :ensure t
   :commands lsp-treemacs-errors-list)
 (use-package company
@@ -49,6 +54,7 @@
   :ensure t
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
   :hook (cmake-mode . lsp-deferred))
+
 (use-package cmake-font-lock
   :ensure t
   :after cmake-mode
@@ -130,14 +136,19 @@
   		    (file-name-sans-extension buffer-file-name)))))
   (call-interactively 'compile))
 
-;; Shell
-
-
 ;;; Edit
 (electric-pair-mode 1)
-(define-key evil-normal-state-map (kbd "K") 'lsp-ui-doc-show)
 (setq electric-pair-preserve-balance nil)
 
 ;; c,cpp
 (setq c-default-style "linux"
       c-basic-offset 4)
+
+;; python
+(use-package lsp-pyright
+  :after lsp
+  :ensure t
+  :hook (python-mode . (lambda()
+			 (require 'lsp-pyright)
+			 (lsp))))
+

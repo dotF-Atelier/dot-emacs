@@ -1,8 +1,11 @@
 ;; Evil mode
 (use-package evil
   :init
-  (evil-mode)
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
   :config
+  (evil-mode 1)
+
   (define-key evil-normal-state-map "\C-j/" nil)
   (define-key evil-visual-state-map "\C-j/" nil)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
@@ -21,7 +24,17 @@
     (lambda ()
       (interactive)
       (evil-delete (point-at-bol) (point))))
+  )
 
-  ;; set default mode
-  (evil-set-initial-state 'help-mode 'emacs)
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
+(use-package evil-leader
+  :ensure t
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
   )

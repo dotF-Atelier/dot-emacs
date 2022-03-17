@@ -13,3 +13,5 @@
 (load-user-file "vendor/evil.el")
 (load-user-file "vendor/lsp.el")
 (load-user-file "vendor/vterm.el")
+(load-user-file "vendor/org.el")
+(load-user-file "vendor/misc.el")
