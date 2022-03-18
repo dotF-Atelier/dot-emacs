@@ -27,9 +27,9 @@
   :after lsp
   :ensure t
   :commands lsp-ivy-workspace-symbol)
+
 (use-package ivy-prescient
-  :after lsp-ivy
-  :config (ivy-prescient-mode))
+  :config (ivy-prescient-mode 1))
 
 (use-package lsp-treemacs
   :after lsp
@@ -43,7 +43,7 @@
 (use-package company-prescient
   :after company
   :config
-  (company-prescient-mode))
+  (company-prescient-mode t))
 
 (use-package yasnippet
   :ensure t
