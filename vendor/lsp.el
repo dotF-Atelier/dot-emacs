@@ -4,6 +4,7 @@
   :ensure t
   :hook ((c-mode . lsp)
 	 (c++-mode . lsp)
+	 (python-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
   :config
@@ -26,6 +27,10 @@
   :after lsp
   :ensure t
   :commands lsp-ivy-workspace-symbol)
+(use-package ivy-prescient
+  :after lsp-ivy
+  :config (ivy-prescient-mode))
+
 (use-package lsp-treemacs
   :after lsp
   :ensure t
@@ -35,6 +40,10 @@
   :config
   (global-company-mode)
   )
+(use-package company-prescient
+  :after company
+  :config
+  (company-prescient-mode))
 
 (use-package yasnippet
   :ensure t
@@ -139,6 +148,7 @@
 ;;; Edit
 (electric-pair-mode 1)
 (setq electric-pair-preserve-balance nil)
+(add-hook 'prog-mode-hook #'hs-minor-mode)
 
 ;; c,cpp
 (setq c-default-style "linux"
@@ -152,3 +162,7 @@
 			 (require 'lsp-pyright)
 			 (lsp))))
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))

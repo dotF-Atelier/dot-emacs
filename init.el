@@ -9,6 +9,12 @@
   "Load a file in current use's configuration directory"
   (load-file (expand-file-name file user-init-dir)))
 
+;; config file shortcuts
+(defun edit-init-config ()
+  "Open the init file."
+  (interactive)
+  (find-file user-init-file))
+
 (load-user-file "basic.el")
 (load-user-file "vendor/evil.el")
 (load-user-file "vendor/lsp.el")

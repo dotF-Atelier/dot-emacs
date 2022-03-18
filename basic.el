@@ -36,10 +36,14 @@
 
 ;; basic setting
 (global-linum-mode)
+(setq truncate-partial-width-windows nil)
+(set-default 'truncate-lines t)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; Fonts
 (add-to-list 'default-frame-alist
 	     '(font . "fantasquesansmono-13"))
+
 ;; Themes
 (use-package doom-themes
   :config (load-theme 'doom-horizon t))
@@ -52,8 +56,7 @@
 ;; which key
 (use-package which-key
   :config
-  (which-key-mode)
-  )
+  (which-key-mode))
 
 ;; counsel
 (use-package counsel

@@ -20,6 +20,10 @@
   (define-key evil-normal-state-map (kbd "C-w C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-w C-l") 'evil-window-right)
 
+  (define-key evil-normal-state-map (kbd "gsk") 'avy-goto-word-0-above)
+  (define-key evil-normal-state-map (kbd "gsj") 'avy-goto-word-0-below)
+  (define-key evil-normal-state-map (kbd "gss") 'avy-goto-char-timer)
+
   (define-key evil-insert-state-map (kbd "C-u")
     (lambda ()
       (interactive)
