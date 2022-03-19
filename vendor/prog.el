@@ -12,10 +12,9 @@
   :hook ((c-mode . lsp)
 	 (c++-mode . lsp)
 	 (python-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+	 (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
-  :config
-  (setq lsp-keymap-prefix "C-c l")
+  :config (setq lsp-keymap-prefix "C-c l")
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   (setq lsp-file-watch-threshold 15000))
 
@@ -23,13 +22,10 @@
   :after lsp
   :ensure t
   :commands (lsp-ui-mode)
-  :config
-  (setq lsp-ui-doc-enable nil
-	lsp-ui-doc-delay 0.5)
+  :config (setq lsp-ui-doc-enable nil lsp-ui-doc-delay 0.5)
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  (define-key evil-normal-state-map (kbd "K") 'lsp-ui-doc-show)
-  )
+  (define-key evil-normal-state-map (kbd "K") 'lsp-ui-doc-show))
 (use-package lsp-ivy
   :after lsp
   :ensure t
@@ -44,26 +40,20 @@
   :commands lsp-treemacs-errors-list)
 (use-package company
   :ensure t
-  :config
-  (global-company-mode)
-  )
+  :config (global-company-mode))
 (use-package company-prescient
   :after company
-  :config
-  (company-prescient-mode t))
+  :config (company-prescient-mode t))
 
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
   :bind (:map yas-minor-mode-map
-              ("C-c C-e" . yas-expand))
-  :config
-  (yas-reload-all)
+	      ("C-c C-e" . yas-expand))
+  :config (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
   (yas-global-mode 1)
-  (setq yas-prompt-functions '(yas-dropdown-prompt
-                               yas-ido-prompt
-                               yas-completing-prompt)))
+  (setq yas-prompt-functions '(yas-dropdown-prompt yas-ido-prompt yas-completing-prompt)))
 
 ;; cmake
 (use-package cmake-mode
@@ -80,17 +70,13 @@
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
-  :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (setq flycheck-display-errors-function
-	#'flycheck-display-error-messages-unless-error-list
-	flycheck-indication-mode nil
-	))
+  :config (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list
+	flycheck-indication-mode nil))
 (use-package flycheck-pos-tip
   :ensure t
   :after flycheck
-  :config
-  (flycheck-pos-tip-mode))
+  :config (flycheck-pos-tip-mode))
 
 
 ;;; Build system
@@ -98,19 +84,15 @@
   "Bear make compile command."
   (interactive)
   (set (make-local-variable 'compile-command)
-       (concat "bear make "
-  	       (if buffer-file-name
-  		   (shell-quote-argument
-  		    (file-name-sans-extension buffer-file-name)))))
+       (concat "bear make " (if buffer-file-name (shell-quote-argument (file-name-sans-extension
+									buffer-file-name)))))
   (call-interactively 'compile))
 (defun my-compile-command-make ()
   "Make compile command."
   (interactive)
   (set (make-local-variable 'compile-command)
-       (concat "make "
-  	       (if buffer-file-name
-  		   (shell-quote-argument
-  		    (file-name-sans-extension buffer-file-name)))))
+       (concat "make " (if buffer-file-name (shell-quote-argument (file-name-sans-extension
+								   buffer-file-name)))))
   (call-interactively 'compile))
 
 ;; Premake
@@ -118,19 +100,17 @@
   "Premake compile command."
   (interactive)
   (set (make-local-variable 'compile-command)
-       (concat "premake4 gmake "
-  	       (if buffer-file-name
-  		   (shell-quote-argument
-  		    (file-name-sans-extension buffer-file-name)))))
+       (concat "premake4 gmake " (if buffer-file-name (shell-quote-argument
+						       (file-name-sans-extension
+							buffer-file-name)))))
   (call-interactively 'compile))
 (defun my-build-command-premake ()
   "Premake build command."
   (interactive)
   (set (make-local-variable 'compile-command)
-       (concat "cd build && bear make "
-  	       (if buffer-file-name
-  		   (shell-quote-argument
-  		    (file-name-sans-extension buffer-file-name)))))
+       (concat "cd build && bear make " (if buffer-file-name (shell-quote-argument
+							      (file-name-sans-extension
+							       buffer-file-name)))))
   (call-interactively 'compile))
 
 ;; CMake
@@ -138,29 +118,44 @@
   "CMake compile command."
   (interactive)
   (set (make-local-variable 'compile-command)
-       (concat "cmake -H. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=1 "
-  	       (if buffer-file-name
-  		   (shell-quote-argument
-  		    (file-name-sans-extension buffer-file-name)))))
+       (concat "cmake -H. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=1 " (if buffer-file-name
+									  (shell-quote-argument
+									   (file-name-sans-extension
+									    buffer-file-name)))))
   (call-interactively 'compile))
 (defun my-build-command-cmake ()
   "CMake build command."
   (interactive)
   (set (make-local-variable 'compile-command)
-       (concat "cmake --build build "
-  	       (if buffer-file-name
-  		   (shell-quote-argument
-  		    (file-name-sans-extension buffer-file-name)))))
+       (concat "cmake --build build " (if buffer-file-name (shell-quote-argument
+							    (file-name-sans-extension
+							     buffer-file-name)))))
   (call-interactively 'compile))
 
 ;;; Edit
+(setq indent-tabs-mode nil)
 (electric-pair-mode 1)
 (setq electric-pair-preserve-balance nil)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 
+;; editorconfig support
+(use-package editorconfig
+  :ensure t
+  :config (editorconfig-mode 1))
+
+;; Projectile
+(use-package
+  projectile
+  :config (projectile-mode)
+  (evil-leader/set-key "p" 'projectile-command-map)
+  (evil-leader/set-key "pt" )
+  )
+
 ;; c,cpp
-(setq c-default-style "linux"
-      c-basic-offset 4)
+(setq c-default-style "linux" c-basic-offset 4)
+;; gdb configuration
+(setq gdb-many-windows t
+      gdb-show-main t)
 
 ;; python
 (use-package lsp-pyright
@@ -169,11 +164,6 @@
   :hook (python-mode . (lambda()
 			 (require 'lsp-pyright)
 			 (lsp))))
-
-(use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1))
 
 (provide 'k_prog)
 ;;; prog.el ends here

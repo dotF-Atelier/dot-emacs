@@ -4,12 +4,11 @@
   (load custom-file))
 
 ;; Don't clutter up directories with files~
-(setq backup-directory-alist `(("." . ,(expand-file-name
-                                    (concat user-emacs-directory "backups")))))
+(setq backup-directory-alist `(("." . ,(expand-file-name (concat user-emacs-directory "backups")))))
 
 ;; Don't clutter with #files either
-(setq auto-save-file-name-transforms
-      `((".*" ,(expand-file-name (concat user-emacs-directory "backups")))))
+(setq auto-save-file-name-transforms `((".*" ,(expand-file-name (concat user-emacs-directory
+									"backups")))))
 
 ;; Define and initialise package repositories
 (require 'package)
@@ -27,58 +26,56 @@
 
 ;; Keyboard-centric user interface
 (setq inhibit-startup-message t)
-(tool-bar-mode -1)            ; Disable the toolbar
-(tooltip-mode -1)             ; Disable tooltips
-(menu-bar-mode -1)            ; Disable the menu bar
+(tool-bar-mode -1)			; Disable the toolbar
+(tooltip-mode -1)			; Disable tooltips
+(menu-bar-mode -1)			; Disable the menu bar
 (setq use-dialog-box nil)
 (scroll-bar-mode -1)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; basic setting
 (global-linum-mode)
+(recentf-mode 1)
 (setq truncate-partial-width-windows nil)
 (set-default 'truncate-lines t)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(savehist-mode)
 
 ;; Fonts
-(add-to-list 'default-frame-alist
-	     '(font . "fantasquesansmono-13"))
+(add-to-list 'default-frame-alist '(font . "fantasquesansmono-13"))
 
 ;; Themes
-(use-package doom-themes
+(use-package
+  doom-themes
   :config (load-theme 'doom-horizon t))
 
 ;; Modeline
-(use-package doom-modeline
-  :config
-  (doom-modeline-mode))
+(use-package
+  doom-modeline
+  :config (doom-modeline-mode))
 
 ;; which key
-(use-package which-key
-  :config
-  (which-key-mode))
+(use-package
+  which-key
+  :config (which-key-mode))
 
 ;; counsel
-(use-package counsel
-  :config
-  (counsel-mode)
-  (setq counsel-find-file-ignore-regexp
-          (concat
-           ;; File names beginning with # or .
-           "\\(?:\\`[#.]\\)"
-           ;; File names ending with # or ~
-           "\\|\\(?:\\`.+?[#~]\\'\\)"))
+(use-package
+  counsel
+  :config (counsel-mode)
+  (setq counsel-find-file-ignore-regexp (concat
+					 ;; File names beginning with # or .
+					 "\\(?:\\`[#.]\\)"
+					 ;; File names ending with # or ~
+					 "\\|\\(?:\\`.+?[#~]\\'\\)"))
   (ivy-mode)
   (setq ivy-extra-directories nil)
   (global-set-key (kbd "C-s") 'swiper)
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  )
 
-;; Projectile
-(use-package projectile
-  :config
-  (projectile-mode)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq recentf-max-menu-items 25)
+  (setq recentf-max-saved-items 25)
+  (global-set-key (kbd "C-x C-r") 'counsel-recentf)
   )
 
 (provide 'k_basic)
