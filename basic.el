@@ -78,5 +78,7 @@
   (global-set-key (kbd "C-x C-r") 'counsel-recentf)
   )
 
+
+
 (provide 'k_basic)
 ;;; basic.el ends here

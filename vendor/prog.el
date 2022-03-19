@@ -26,10 +26,16 @@
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
   (define-key evil-normal-state-map (kbd "K") 'lsp-ui-doc-show))
+
 (use-package lsp-ivy
   :after lsp
   :ensure t
-  :commands lsp-ivy-workspace-symbol)
+  :config
+  (define-key evil-normal-state-map (kbd "gsk") 'avy-goto-word-0-above)
+  (define-key evil-normal-state-map (kbd "gsj") 'avy-goto-word-0-below)
+  (define-key evil-normal-state-map (kbd "gss") 'avy-goto-char-timer)
+  :commands lsp-ivy-workspace-symbol
+  )
 
 (use-package ivy-prescient
   :config (ivy-prescient-mode 1))
@@ -38,9 +44,11 @@
   :after lsp
   :ensure t
   :commands lsp-treemacs-errors-list)
+
 (use-package company
   :ensure t
   :config (global-company-mode))
+
 (use-package company-prescient
   :after company
   :config (company-prescient-mode t))
@@ -79,59 +87,6 @@
   :config (flycheck-pos-tip-mode))
 
 
-;;; Build system
-(defun my-compile-command-bearmake ()
-  "Bear make compile command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "bear make " (if buffer-file-name (shell-quote-argument (file-name-sans-extension
-									buffer-file-name)))))
-  (call-interactively 'compile))
-(defun my-compile-command-make ()
-  "Make compile command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "make " (if buffer-file-name (shell-quote-argument (file-name-sans-extension
-								   buffer-file-name)))))
-  (call-interactively 'compile))
-
-;; Premake
-(defun my-compile-command-premake ()
-  "Premake compile command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "premake4 gmake " (if buffer-file-name (shell-quote-argument
-						       (file-name-sans-extension
-							buffer-file-name)))))
-  (call-interactively 'compile))
-(defun my-build-command-premake ()
-  "Premake build command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "cd build && bear make " (if buffer-file-name (shell-quote-argument
-							      (file-name-sans-extension
-							       buffer-file-name)))))
-  (call-interactively 'compile))
-
-;; CMake
-(defun my-compile-command-cmake ()
-  "CMake compile command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "cmake -H. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=1 " (if buffer-file-name
-									  (shell-quote-argument
-									   (file-name-sans-extension
-									    buffer-file-name)))))
-  (call-interactively 'compile))
-(defun my-build-command-cmake ()
-  "CMake build command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "cmake --build build " (if buffer-file-name (shell-quote-argument
-							    (file-name-sans-extension
-							     buffer-file-name)))))
-  (call-interactively 'compile))
-
 ;;; Edit
 (setq indent-tabs-mode nil)
 (electric-pair-mode 1)
@@ -144,11 +99,9 @@
   :config (editorconfig-mode 1))
 
 ;; Projectile
-(use-package
-  projectile
+(use-package projectile
   :config (projectile-mode)
   (evil-leader/set-key "p" 'projectile-command-map)
-  (evil-leader/set-key "pt" )
   )
 
 ;; c,cpp

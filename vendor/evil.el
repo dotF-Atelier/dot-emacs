@@ -7,11 +7,12 @@
 ;;; Code:
 
 (use-package evil
-  :init (setq evil-want-integration t)
+  :ensure t
+  :init
+  (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
-  (advice-add 'undo-auto--last-boundary-amalgamating-number
-	      :override #'ignore)
-  :config (evil-mode 1)
+  :config
+  (evil-mode 1)
   (define-key evil-normal-state-map "\C-j/" nil)
   (define-key evil-visual-state-map "\C-j/" nil)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
@@ -24,9 +25,6 @@
   (define-key evil-normal-state-map (kbd "C-w C-j") 'evil-window-down)
   (define-key evil-normal-state-map (kbd "C-w C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-w C-l") 'evil-window-right)
-  (define-key evil-normal-state-map (kbd "gsk") 'avy-goto-word-0-above)
-  (define-key evil-normal-state-map (kbd "gsj") 'avy-goto-word-0-below)
-  (define-key evil-normal-state-map (kbd "gss") 'avy-goto-char-timer)
   (define-key evil-insert-state-map (kbd "C-u")
     (lambda ()
       (interactive)
@@ -34,11 +32,12 @@
 		   (point)))))
 
 (use-package evil-collection
-  :after evil
   :ensure t
+  :after evil
   :config (evil-collection-init))
 
 (use-package evil-leader
+  :init
   :ensure t
   :config (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>"))
