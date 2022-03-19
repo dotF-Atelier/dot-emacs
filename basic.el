@@ -78,7 +78,11 @@
   (global-set-key (kbd "C-x C-r") 'counsel-recentf)
   )
 
-
+;; undo tree
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode 1))
 
 (provide 'k_basic)
 ;;; basic.el ends here

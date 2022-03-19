@@ -11,6 +11,7 @@
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
+  (evil-set-undo-system 'undo-tree)
   :config
   (evil-mode 1)
   (define-key evil-normal-state-map "\C-j/" nil)
