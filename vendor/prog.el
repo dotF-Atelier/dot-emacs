@@ -1,3 +1,10 @@
+;;; prog.el --- programming support
+
+;;; Commentary:
+;;
+
+;;; Code:
+
 ;; lsp support
 (use-package lsp-mode
   :after evil
@@ -74,6 +81,7 @@
   :ensure t
   :init (global-flycheck-mode)
   :config
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (setq flycheck-display-errors-function
 	#'flycheck-display-error-messages-unless-error-list
 	flycheck-indication-mode nil
@@ -166,3 +174,6 @@
   :ensure t
   :config
   (editorconfig-mode 1))
+
+(provide 'k_prog)
+;;; prog.el ends here

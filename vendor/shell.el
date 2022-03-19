@@ -1,3 +1,10 @@
+;;; shell.el --- integrate shell setup
+
+;;; Commentary:
+;;
+
+;;; Code:
+
 (use-package vterm
   :after evil-leader
   :commands vterm
@@ -10,3 +17,6 @@
   :hook
   (vterm-mode . (lambda() (linum-mode -1)))
   )
+
+(provide 'k_shell)
+;;; shell.el ends here

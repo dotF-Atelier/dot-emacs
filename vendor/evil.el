@@ -1,8 +1,17 @@
+;;; evil.el --- evil setup
 ;; Evil mode
+
+;;; Commentary:
+;;
+
+;;; Code:
+
 (use-package evil
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
+  (advice-add 'undo-auto--last-boundary-amalgamating-number
+              :override #'ignore)
   :config
   (evil-mode 1)
 
@@ -40,5 +49,7 @@
   :ensure t
   :config
   (global-evil-leader-mode)
-  (evil-leader/set-leader "<SPC>")
-  )
+  (evil-leader/set-leader "<SPC>"))
+
+(provide 'k_evil)
+;;; evil.el ends here

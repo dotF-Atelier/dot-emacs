@@ -80,3 +80,6 @@
   (projectile-mode)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   )
+
+(provide 'k_basic)
+;;; basic.el ends here
