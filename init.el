@@ -18,11 +18,12 @@
   (load-file (expand-file-name file user-init-dir)))
 
 (load-user-file "basic.el")
-(load-user-file "vendor/evil.el")
-(load-user-file "vendor/prog.el")
-(load-user-file "vendor/shell.el")
-(load-user-file "vendor/org.el")
-(load-user-file "vendor/misc.el")
+(load-user-file "evil.el")
+(load-user-file "edit.el")
+(load-user-file "prog.el")
+(load-user-file "shell.el")
+(load-user-file "org.el")
+(load-user-file "misc.el")
 
 (provide 'init)
 
