@@ -4,23 +4,13 @@
 ;;
 
 ;; config file shortcuts
-(defun edcfg-init ()
-  "Open the init file."
+(defun edit-emacs-config ()
+  "Open the emacs configuration file"
   (interactive)
-  (find-file user-init-file))
-(defun edcfg-basic ()
-  "Open the basic file."
-  (interactive)
-  (find-file (expand-file-name "basic.el" user-init-dir)))
-(defun edcfg-vendor ()
-  "Open the vendor setup file"
-  (interactive)
-  (cd (expand-file-name "vendor" user-init-dir))
+  (cd user-emacs-directory)
   (call-interactively 'find-file)
   )
-(evil-leader/set-key "ei" 'edcfg-init)
-(evil-leader/set-key "eb" 'edcfg-basic)
-(evil-leader/set-key "ev" 'edcfg-vendor)
+(evil-leader/set-key "ec" 'edit-emacs-config)
 
 ;;; Build system
 (defun my-compile-command-bearmake ()
