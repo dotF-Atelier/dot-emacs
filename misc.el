@@ -7,10 +7,8 @@
 (defun edit-emacs-config ()
   "Open the emacs configuration file"
   (interactive)
-  (cd user-emacs-directory)
-  (call-interactively 'find-file)
-  )
-(evil-leader/set-key "ec" 'edit-emacs-config)
+  (call-interactively (counsel-find-file "~/.emacs.d")))
+(evil-define-key 'normal 'global (kbd "<leader>ec") 'edit-emacs-config)
 
 ;;; Build system
 (defun my-compile-command-bearmake ()
@@ -26,24 +24,6 @@
   (set (make-local-variable 'compile-command)
        (concat "make " (if buffer-file-name (shell-quote-argument (file-name-sans-extension
 								   buffer-file-name)))))
-  (call-interactively 'compile))
-
-;; Premake
-(defun my-compile-command-premake ()
-  "Premake compile command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "premake4 gmake " (if buffer-file-name (shell-quote-argument
-						       (file-name-sans-extension
-							buffer-file-name)))))
-  (call-interactively 'compile))
-(defun my-build-command-premake ()
-  "Premake build command."
-  (interactive)
-  (set (make-local-variable 'compile-command)
-       (concat "cd build && bear make " (if buffer-file-name (shell-quote-argument
-							      (file-name-sans-extension
-							       buffer-file-name)))))
   (call-interactively 'compile))
 
 ;; CMake
@@ -64,6 +44,11 @@
 							    (file-name-sans-extension
 							     buffer-file-name)))))
   (call-interactively 'compile))
+
+(evil-define-key 'normal 'global (kbd "<leader>cr") 'my-compile-command-bearmake)
+(evil-define-key 'normal 'global (kbd "<leader>cm") 'my-compile-command-make)
+(evil-define-key 'normal 'global (kbd "<leader>cc") 'my-compile-command-cmake)
+(evil-define-key 'normal 'global (kbd "<leader>cb") 'my-build-command-cmake)
 
 
 (provide 'misc)

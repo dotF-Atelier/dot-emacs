@@ -7,10 +7,11 @@ MY PERSONAL EMACS CONFIG (WIP)
 
 ## SHORTCUTS
 
-| keys       | description              |
-|:----------:|:------------------------:|
-| `<space>` ei | edit emacs init config   |
-| `<space>` eb | edit emacs basic config  |
-| `<space>` ev | edit emacs vendor config |
-| `<space>` ot | open vterm shell         |
-| `<space>` p* | projectile key mapping   |
+| keys       | description                              |
+|:----------:|:----------------------------------------:|
+| `<SPC>` ec | open emacs configuration file            |
+| `<SPC>` ot | open vterm shell                         |
+| `<SPC>` p* | projectile key mapping                   |
+| `<SPC>` c* | compile/build key mapping                |
+| `<SPC>` t* | tabbar key mapping                       |
+| gss        | go to char with timer anyplace in buffer |

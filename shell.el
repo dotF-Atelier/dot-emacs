@@ -8,9 +8,7 @@
 ;; vterm
 (use-package
   vterm
-  :after evil-leader
   :commands vterm
-  :init (evil-leader/set-key "ot" 'vterm-toggle)
   :config
   (setq vterm-toggle-fullscreen-p nil)
   (add-to-list 'display-buffer-alist
@@ -23,8 +21,13 @@
                  (reusable-frames . visible)
                  (window-height . 0.3)))
   (setq vterm-max-scrollback 10000)
-  (define-key vterm-mode-map (kbd "C-u") 'vterm-send-C-u)
-  (define-key vterm-mode-map (kbd "C-h") 'vterm-send-C-h)
+  :bind
+  (:map evil-normal-state-map
+	("<leader>ot" . 'vterm-toggle))
+  (:map vterm-mode-map
+	("C-u" . 'vterm-send-C-u)
+	("C-h" . 'vterm-send-C-h)
+	)
   :hook (vterm-mode . (lambda()
 			(linum-mode -1))))
 

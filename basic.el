@@ -34,11 +34,17 @@
 (global-linum-mode)
 (recentf-mode 1)
 (set-default 'truncate-lines t)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (savehist-mode)
 
 ;; Fonts
 (add-to-list 'default-frame-alist '(font . "fantasquesansmono-13"))
+
+(use-package all-the-icons
+  :if(display-graphic-p)
+  :config
+  (setq inhibit-compacting-font-caches t)
+  (setq all-the-icons-scale-factor 1.0)
+  )
 
 ;; Themes
 (use-package
@@ -73,7 +79,13 @@
   ("C-s" . 'swiper)
   ("C-c C-r" . 'ivy-resume)
   ("C-x C-r" . 'counsel-recentf)
+  ("C-x C-b" . 'ibuffer)
+  ("C-x b" . 'counsel-ibuffer)
   )
+
+(use-package amx
+  :config
+  (amx-mode))
 
 (provide 'k_basic)
 ;;; basic.el ends here

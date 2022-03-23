@@ -6,3 +6,7 @@ elpa/
 recentf
 history
 \#backups\#
+amx-items
+custom.el
+smex-items
+bookmarks

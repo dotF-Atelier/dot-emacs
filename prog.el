@@ -50,7 +50,10 @@
 
 (use-package company
   :ensure t
-  :config (global-company-mode))
+  :config
+  (global-company-mode)
+  (setq company-show-numbers t)
+  )
 
 (use-package company-prescient
   :after company
@@ -65,8 +68,11 @@
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
-  (yas-global-mode 1)
+  ;; (yas-global-mode 1)
   (setq yas-prompt-functions '(yas-dropdown-prompt yas-ido-prompt yas-completing-prompt)))
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
 
 ;; cmake
 (use-package cmake-mode
@@ -95,9 +101,10 @@
 
 ;; Projectile
 (use-package projectile
-  :init
-  (evil-leader/set-key "p" 'projectile-command-map)
   :config (projectile-mode)
+  :bind
+  (:map evil-normal-state-map
+	 ("<leader>p" . 'projectile-command-map))
   )
 
 ;; c,cpp
