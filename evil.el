@@ -9,13 +9,13 @@
 ;; evil key-binding
 (use-package evil
   :ensure t
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  :config
-  (evil-mode 1)
+  :custom
+  (evil-want-keybinding nil)
+  (evil-want-integration t)
   (evil-set-leader 'normal (kbd "SPC"))
   (evil-set-undo-system 'undo-tree)
+  :config
+  (evil-mode 1)
   :bind
   (:map evil-normal-state-map
 	("M-h" . 'evil-backward-char)

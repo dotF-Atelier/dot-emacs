@@ -13,6 +13,7 @@
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/") t)
 (add-to-list 'package-archives '("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 ;; use-package to simplify the config file
 (unless (package-installed-p 'use-package)
@@ -41,9 +42,9 @@
 
 (use-package all-the-icons
   :if(display-graphic-p)
-  :config
-  (setq inhibit-compacting-font-caches t)
-  (setq all-the-icons-scale-factor 1.0)
+  :custom
+  (inhibit-compacting-font-caches t)
+  (all-the-icons-scale-factor 1.0)
   )
 
 ;; Themes
@@ -64,17 +65,18 @@
 ;; counsel
 (use-package
   counsel
-  :config
-  (counsel-mode)
-  (ivy-mode)
-  (setq counsel-find-file-ignore-regexp (concat
+  :custom
+  (counsel-find-file-ignore-regexp (concat
 					 ;; File names beginning with # or .
 					 "\\(?:\\`[#.]\\)"
 					 ;; File names ending with # or ~
-					 "\\|\\(?:\\`.+?[#~]\\'\\)")
-	ivy-extra-directories nil
-	recentf-max-menu-items 25
-	recentf-max-saved-items 25)
+					 "\\|\\(?:\\`.+?[#~]\\'\\)"))
+  (ivy-extra-directories nil)
+  (recentf-max-menu-items 25)
+  (recentf-max-saved-items 25)
+  :config
+  (counsel-mode)
+  (ivy-mode)
   :bind
   ("C-s" . 'swiper)
   ("C-c C-r" . 'ivy-resume)

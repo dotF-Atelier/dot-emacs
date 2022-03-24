@@ -14,9 +14,9 @@
 	 (python-mode . lsp)
 	 (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
-  :config
-  (setq lsp-keymap-prefix "C-c l"
-	lsp-file-watch-threshold 15000)
+  :custom
+  (lsp-keymap-prefix "C-c l")
+  (lsp-file-watch-threshold 15000)
   :bind-keymap
   ("C-c l" . lsp-command-map)
   )
@@ -25,9 +25,9 @@
   :after lsp
   :ensure t
   :commands (lsp-ui-mode)
-  :config
-  (setq lsp-ui-doc-enable nil
-	lsp-ui-doc-delay 0.5)
+  :custom
+  (lsp-ui-doc-enable nil)
+  (lsp-ui-doc-delay 0.5)
   :bind
   (:map lsp-ui-mode-map
 	([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions)
@@ -50,9 +50,10 @@
 
 (use-package company
   :ensure t
+  :custom
+  (company-show-numbers t)
   :config
   (global-company-mode)
-  (setq company-show-numbers t)
   )
 
 (use-package company-prescient
@@ -65,11 +66,12 @@
   :bind
   (:map yas-minor-mode-map
 	      ("C-c C-e" . yas-expand))
+  :custom
+  (yas-prompt-functions '(yas-dropdown-prompt yas-ido-prompt yas-completing-prompt))
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
-  ;; (yas-global-mode 1)
-  (setq yas-prompt-functions '(yas-dropdown-prompt yas-ido-prompt yas-completing-prompt)))
+  )
 (use-package yasnippet-snippets
   :ensure t
   :after yasnippet)
@@ -90,10 +92,11 @@
   :ensure t
   :init
   (global-flycheck-mode)
-  :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list
-	flycheck-indication-mode nil))
+  :custom
+  (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  (flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list)
+  (flycheck-indication-mode nil)
+  )
 (use-package flycheck-pos-tip
   :ensure t
   :after flycheck

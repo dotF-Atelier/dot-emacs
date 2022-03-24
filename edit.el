@@ -14,23 +14,23 @@
 ;; tabbar
 (use-package centaur-tabs
   :demand
+  :custom
+  (centaur-tabs-style "bar")
+  (centaur-tabs-set-bar 'left)
+  ;; (setq x-underline-at-descent-line t)
+  ;; (centaur-tabs-set-icons t)
+  ;; (centaur-tabs-gray-out-icons 'buffer)
+  (centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-set-modified-marker t)
+  (centaur-tabs-modified-marker "*")
+  (centaur-tabs-set-close-button nil)
+  (uniquify-separator "/")
+  (uniquify-buffer-name-style 'forward)
   :config
   (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-change-fonts "arial" 120)
-
-  (setq centaur-tabs-style "bar"
-	centaur-tabs-set-bar 'left
-	;; (setq x-underline-at-descent-line t)
-	;; centaur-tabs-set-icons t
-	;; centaur-tabs-gray-out-icons 'buffer
-	centaur-tabs-cycle-scope 'tabs
-	centaur-tabs-set-modified-marker t
-	centaur-tabs-modified-marker "*"
-	centaur-tabs-set-close-button nil)
-  (setq uniquify-separator "/")
-  (setq uniquify-buffer-name-style 'forward)
   (defun centaur-tabs-buffer-groups ()
     "`centaur-tabs-buffer-groups' control buffers' group rules.
 
@@ -82,9 +82,8 @@
   ("<leader> t l" . centaur-tabs-forward)
   ("<leader> t n" . centaur-tabs--create-new-tab)
   ("<leader> t s" . centaur-tabs-counsel-switch-group)
-  ("C-c t s" . centaur-tabs-counsel-switch-group)
-  ("C-c t p" . centaur-tabs-group-by-projectile-project)
-  ("C-c t g" . centaur-tabs-group-buffer-groups))
+  ("<leader> t p" . centaur-tabs-group-by-projectile-project)
+  ("<leader> t g" . centaur-tabs-group-buffer-groups))
 
 ;; editorconfig
 (use-package editorconfig
@@ -94,10 +93,20 @@
 ;; undo tree
 (use-package undo-tree
   :ensure t
+  :custom
+  (undo-tree-auto-save-history t)
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   :config
   (global-undo-tree-mode 1)
-  (setq undo-tree-auto-save-history t
-	undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  )
+
+;; git version control
+(use-package magit
+  :bind
+  (:map evil-normal-state-map
+	("<leader> ms" . 'magit-status)
+	("<leader> mb" . 'magit-diff-buffer-file)
+	("<leader> mp" . 'magit-file-dispatch))
   )
 
 (provide 'edit)
