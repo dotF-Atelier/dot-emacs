@@ -114,8 +114,7 @@
 (setq c-default-style "linux" c-basic-offset 4)
 
 ;; gdb configuration
-(setq gdb-many-windows t
-      gdb-show-main t)
+(setq gdb-show-main t)
 
 ;; python
 (use-package lsp-pyright

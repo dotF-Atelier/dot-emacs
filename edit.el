@@ -76,6 +76,11 @@
   (calendar-mode . centaur-tabs-local-mode)
   (org-agenda-mode . centaur-tabs-local-mode)
   (helpful-mode . centaur-tabs-local-mode)
+  (gud-mode . centaur-tabs-local-mode)
+  (gdb-parent-mode . centaur-tabs-local-mode)
+  (gdb-frames-mode . centaur-tabs-local-mode)
+  (gdb-breakpoints-mode . centaur-tabs-local-mode)
+  (gdb-inferior-io-mode . centaur-tabs-local-mode)
   :bind
   ("<leader> t x" . centaur-tabs--kill-this-buffer-dont-ask)
   ("<leader> t h" . centaur-tabs-backward)

@@ -41,7 +41,6 @@
 (add-to-list 'default-frame-alist '(font . "fantasquesansmono-13"))
 
 (use-package all-the-icons
-  :if(display-graphic-p)
   :custom
   (inhibit-compacting-font-caches t)
   (all-the-icons-scale-factor 1.0)

@@ -12,10 +12,10 @@
   :custom
   (evil-want-keybinding nil)
   (evil-want-integration t)
-  (evil-set-leader 'normal (kbd "SPC"))
-  (evil-set-undo-system 'undo-tree)
   :config
   (evil-mode 1)
+  (evil-set-leader 'normal (kbd "SPC"))
+  (evil-set-undo-system 'undo-tree)
   :bind
   (:map evil-normal-state-map
 	("M-h" . 'evil-backward-char)
