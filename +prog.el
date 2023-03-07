@@ -8,55 +8,24 @@
   (setq company-idle-delay 0.1)
   (setq company-format-margin-function #'company-detect-icons-margin))
 
-(after! realgud (advice-remove #'realgud:terminate #'+debugger--cleanup-after-realgud-a))
-
-(defvar gud-overlay
-  (let* ((ov (make-overlay (point-min) (point-min))))
-    (overlay-put ov 'face '(:background "#2D2F37")) ;; colors for Leuven theme
-    ov)
-  "Overlay variable for GUD highlighting.")
-(defadvice gud-display-line (after my-gud-highlight act)
- "Highlight current line."
- (let* ((ov gud-overlay)
-        (bf (gud-find-file true-file)))
-   (save-excursion
-     (with-selected-window (get-buffer-window bf)
-       (save-restriction
-         (goto-line (ad-get-arg 1))
-         (recenter)))
-     (set-buffer bf)
-     (move-overlay ov (line-beginning-position) (line-end-position)
-                   (current-buffer)))))
-
-(defvar all-gud-modes
-  '(gud-mode comint-mode gdb-locals-mode gdb-frames-mode  gdb-breakpoints-mode)
-  "A list of modes when using gdb")
-(defun kill-all-gud-buffers ()
-  "Kill all gud buffers including Debugger, Locals, Frames, Breakpoints.
-Do this after `q` in Debugger buffer."
-  (interactive)
-  (save-excursion
-        (let ((count 0))
-          (dolist (buffer (buffer-list))
-                (set-buffer buffer)
-                (when (member major-mode all-gud-modes)
-                  (setq count (1+ count))
-                  (kill-buffer buffer)
-                  (delete-other-windows))) ;; fix the remaining two windows issue
-          (message "Killed %i buffer(s)." count))))
-
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . +cc-c-c++-objc-mode))
 (add-to-list 'auto-mode-alist '("\\.inc\\'" . +cc-c-c++-objc-mode))
 
 ;; lsp
 (setq +format-with-lsp nil)
 (after! lsp-mode
+  (setq gc-cons-threshold (* 100 1024 1024)
+        read-process-output-max (* 1024 1024)
+        company-idle-delay 0.0
+        company-minimum-prefix-length 1
+        lsp-idle-delay 0.1)
   (setq lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-icons-enable nil
         lsp-file-watch-threshold 4000
         lsp-log-io nil
         lsp-headerline-breadcrumb-segments '(file symbols)
         lsp-imenu-index-symbol-kinds '(File Module Namespace Package Class Method Enum Interface
-                                            Function Variable Constant Struct Event Operator TypeParameter)
+                                       Function Variable Constant Struct Event Operator TypeParameter)
         )
   (dolist (dir '("[/\\\\]\\.ccls-cache\\'"
                  "[/\\\\]\\.mypy_cache\\'"
@@ -73,6 +42,7 @@ Do this after `q` in Debugger buffer."
                  "[/\\\\]third-party\\'"
                  "[/\\\\]buildtools\\'"
                  "[/\\\\]out\\'"
+                 "[/\\\\]external\\'"
                  ))
     (push dir lsp-file-watch-ignored-directories))
   (setq lsp-clients-clangd-args '("-j=8"
@@ -84,27 +54,31 @@ Do this after `q` in Debugger buffer."
                                   "--pch-storage=memory"
                                   "--header-insertion=never"
                                   "--log=verbose"
+                                  "--header-insertion-decorators=0"
                                   ))
-)
+  )
 
 (after! lsp-ui
-  (setq lsp-ui-doc-enable nil
-        lsp-lens-enable nil
-        lsp-ui-sideline-enable nil
-        lsp-ui-doc-include-signature nil
+  (setq lsp-ui-doc-enable t
+        lsp-lens-enable t
+        lsp-ui-sideline-enable t
+        lsp-ui-doc-include-signature t
         lsp-ui-doc-max-height 15
         lsp-ui-doc-max-width 100))
 
+(add-to-list 'auto-mode-alist '("\\.comp\\'" . glsl-mode))
 
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 (add-hook 'prog-mode-hook #'yas-minor-mode)
-
 ;; projectile
-;; control project root additional guess (besides ".git", ".projectile")
-(setq projectile-project-root-files
-'("CMakeLists.txt" "Makefile" "configure.ac" "configure.in" "TAGS" "GTAGS"))
-(setq projectile-ignored-projects '("~/"))
+(setq projectile-project-root-functions '(projectile-root-local
+                                          projectile-root-top-down
+                                          projectile-root-top-down-recurring
+                                          projectile-root-bottom-up))
+(setq projectile-globally-ignored-directories '("build"))
+
+(setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
 
 (c-set-offset 'inline-open '0)
 (defun vlad-cc-style()
@@ -118,6 +92,25 @@ Do this after `q` in Debugger buffer."
   (setq c-basic-offset 4)
   (setq tab-width 4)
   (setq indent-tabs-mode nil)
-)
+  )
+
+(after! dap-mode
+        (dap-register-debug-template
+        "GDB::Run MB async compute"
+        (list :type "gdb"
+                :request "launch"
+                :name "GDB::Run MB async compute"
+                :arguments "-Tests AsyncCompute"
+                :target "/home/kingstom/workspaces/Microbench/build/microbench/microbench"
+                :cwd "/home/kingstom/workspaces/Microbench/build/microbench"))
+
+        (dap-register-debug-template
+        "GDB::Run MB"
+        (list :type "gdb"
+                :request "launch"
+                :name "GDB::Run MB"
+                :target "/home/kingstom/workspaces/Microbench/build/microbench/microbench"
+                :cwd "/home/kingstom/workspaces/Microbench/build/microbench"))
+  )
 
 (add-hook 'c++-mode-hook 'vlad-cc-style)

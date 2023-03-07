@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mb_common_commit
+# key: mb_common_commit
+# --
+SWDEV-241702 - Microbench development - ${DESC}

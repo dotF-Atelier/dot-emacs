@@ -4,9 +4,9 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-ayu-mirage)
-(setq doom-theme 'doom-horizon)
+(setq doom-theme 'my-doom-horizon)
 ;; doom-mode-line stuff
-(setq doom-modeline-enable-word-count t)
+;; (setq doom-modeline-enable-word-count t)
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -17,25 +17,26 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "Fantasque Sans Mono" :size 22 :weight 'semi-light)
-(setq doom-font (font-spec :family "Fantasque Sans Mono Nerd Font" :size 22 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "arial" :size 19))
-;; Set font for chinese characters
-;; Font should be twice the width of asci chars so that org tables align
-;; This will break if run in terminal mode, so use conditional to only run for GUI.
-(defun chinese-font-reload()
-  "reload chinese fonts"
-  (interactive)
-  (if (display-graphic-p)
-      (dolist (charset '(kana han cjk-misc bopomofo))
-        (set-fontset-font (frame-parameter nil 'font)
-        ;; charset (font-spec :family "Hiragino Sans GB" :size 18))))
-        charset (font-spec :family "WenQuanYi Micro Hei Mono" :size 18)))))
+(setq doom-font (font-spec :family "Fantasque Sans Mono Nerd Font" :size 32 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "klavika" :size 29))
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-;; (setq display-line-numbers t)
-;; (setq doom-line-numbers-style 'relative)
+(defun init-cjk-fonts()
+  (dolist (charset '(kana han cjk-misc bopomofo))
+    (set-fontset-font (frame-parameter nil 'font)
+      charset (font-spec :family "WenQuanYi Micro Hei Mono" :size 29))))
+(add-hook 'doom-init-ui-hook 'init-cjk-fonts)
+
+(defun max/set-font (FONT-NAME CN-FONT-NAME &optional INITIAL-SIZE CN-FONT-RESCALE-RATIO)
+  "Set different font-family for Latin and Chinese charactors."
+  (let* ((size (or INITIAL-SIZE 24))
+         (ratio (or CN-FONT-RESCALE-RATIO 0.0))
+         (main (font-spec :name FONT-NAME :size size))
+         (cn (font-spec :name CN-FONT-NAME)))
+    (set-face-attribute 'default nil :font main)
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font t charset cn))
+    (setq face-font-rescale-alist (if (/= ratio 0.0) `((,CN-FONT-NAME . ,ratio)) nil))))
+
 (setq display-line-numbers-type 'relative)
 
 ;; icons scale
@@ -46,3 +47,5 @@
 
 (setq inhibit-compacting-font-caches t
       all-the-icons-scale-factor 0.9)
+
+(setq neo-window-width 45)

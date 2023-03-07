@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: func doc
+# key: func_doc
+# --
+
+/**
+ * @brief ${FUNC DESCRIPTION}
+ *
+ * @param ${PARAM_NAME} ${PARAM_DESC}
+ *
+ * @note ${NOTE_DESC}
+ *
+ * @remark ${REMARK_DESC}
+ *
+ * @return ${RET_DESC}
+ */
